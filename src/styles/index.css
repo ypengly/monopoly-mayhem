@@ -1,0 +1,223 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --ink: #2b1b5a;
+  --paper: #fffaf0;
+  --board-felt: #d9f5e3;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: 'Nunito', ui-rounded, system-ui, sans-serif;
+  color: var(--ink);
+  background: #6c3cff;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+}
+
+h1,
+h2,
+h3,
+.font-display {
+  font-family: 'Fredoka', 'Baloo 2', ui-rounded, system-ui, sans-serif;
+}
+
+/* ----- backgrounds ---------------------------------------------------- */
+.bg-party {
+  background:
+    radial-gradient(circle at 15% 20%, rgba(255, 95, 162, 0.55), transparent 40%),
+    radial-gradient(circle at 85% 15%, rgba(62, 168, 255, 0.55), transparent 42%),
+    radial-gradient(circle at 70% 90%, rgba(255, 217, 61, 0.45), transparent 40%),
+    radial-gradient(circle at 10% 90%, rgba(46, 213, 115, 0.4), transparent 38%),
+    linear-gradient(135deg, #5a2fe0, #8a3cff 50%, #c04bff);
+  background-attachment: fixed;
+}
+
+.bg-confetti {
+  background-image:
+    radial-gradient(rgba(255, 255, 255, 0.18) 2px, transparent 2px),
+    radial-gradient(rgba(255, 255, 255, 0.12) 3px, transparent 3px);
+  background-size: 38px 38px, 61px 61px;
+  background-position: 0 0, 19px 27px;
+}
+
+/* ----- chunky "toy" surfaces ------------------------------------------ */
+.toy-card {
+  background: #fffdf7;
+  border: 3px solid var(--ink);
+  border-radius: 1.25rem;
+  box-shadow: 0 6px 0 rgba(43, 27, 90, 0.35);
+}
+
+.toy-panel {
+  background: rgba(255, 255, 255, 0.92);
+  border: 3px solid var(--ink);
+  border-radius: 1.25rem;
+  box-shadow: 0 5px 0 rgba(43, 27, 90, 0.3);
+}
+
+.toy-btn {
+  position: relative;
+  border: 3px solid var(--ink);
+  border-radius: 9999px;
+  font-family: 'Fredoka', ui-rounded, system-ui, sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  box-shadow: 0 5px 0 rgba(43, 27, 90, 0.55);
+  transition: transform 0.08s ease, box-shadow 0.08s ease, filter 0.15s ease;
+  user-select: none;
+  touch-action: manipulation;
+}
+.toy-btn:hover:not(:disabled) {
+  filter: brightness(1.07);
+  transform: translateY(-1px);
+}
+.toy-btn:active:not(:disabled) {
+  transform: translateY(4px);
+  box-shadow: 0 1px 0 rgba(43, 27, 90, 0.55);
+}
+.toy-btn:disabled {
+  filter: grayscale(0.7) brightness(1.1);
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.toy-btn:focus-visible {
+  outline: 4px solid #ffd93d;
+  outline-offset: 2px;
+}
+
+.text-outline {
+  -webkit-text-stroke: 2px var(--ink);
+  paint-order: stroke fill;
+  text-shadow: 0 4px 0 rgba(43, 27, 90, 0.45);
+}
+
+/* ----- the board ------------------------------------------------------- */
+.board-shell {
+  container-type: inline-size;
+}
+
+.board-felt {
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.7), transparent 45%),
+    linear-gradient(135deg, #cdf5dd, #b9ecff 55%, #e4d4ff);
+}
+
+.tile {
+  container-type: inline-size;
+  background: #fffdf7;
+  border: 1.5px solid rgba(43, 27, 90, 0.75);
+  overflow: hidden;
+}
+.tile-owned-ring {
+  box-shadow: inset 0 0 0 3px var(--ring, transparent);
+}
+
+.dice-scene {
+  perspective: 700px;
+}
+.dice-cube {
+  transform-style: preserve-3d;
+  position: relative;
+}
+.dice-face {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  padding: 14%;
+  background: linear-gradient(145deg, #ffffff, #ececff);
+  border: 3px solid var(--ink);
+  border-radius: 22%;
+  backface-visibility: hidden;
+}
+.pip {
+  width: 78%;
+  height: 78%;
+  margin: auto;
+  border-radius: 9999px;
+  background: radial-gradient(circle at 35% 30%, #ff7ab8, #d81b72);
+  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.25);
+}
+
+@keyframes confetti-fall {
+  0% {
+    transform: translate3d(0, -10vh, 0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(var(--dx, 0), 110vh, 0) rotate(720deg);
+    opacity: 0.9;
+  }
+}
+.confetti {
+  position: fixed;
+  top: 0;
+  width: 10px;
+  height: 16px;
+  border-radius: 2px;
+  animation: confetti-fall linear forwards;
+  pointer-events: none;
+  z-index: 90;
+}
+
+@keyframes pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 217, 61, 0.9);
+  }
+  100% {
+    box-shadow: 0 0 0 16px rgba(255, 217, 61, 0);
+  }
+}
+.pulse-ring {
+  animation: pulse-ring 1.3s ease-out infinite;
+}
+
+.scroll-soft::-webkit-scrollbar {
+  width: 8px;
+}
+.scroll-soft::-webkit-scrollbar-thumb {
+  background: rgba(43, 27, 90, 0.35);
+  border-radius: 9999px;
+}
+
+/* Player cards stack their money line when the card is narrow (mobile, 2-col grid). */
+.pc-root {
+  container-type: inline-size;
+}
+@container (max-width: 230px) {
+  .pc-row {
+    flex-wrap: wrap;
+  }
+  .pc-row > .min-w-0 {
+    flex-basis: calc(100% - 52px);
+  }
+  .pc-money {
+    display: flex;
+    width: 100%;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-floaty,
+  .animate-wiggle,
+  .pulse-ring {
+    animation: none;
+  }
+}
+.reduce-motion .animate-floaty,
+.reduce-motion .animate-wiggle,
+.reduce-motion .pulse-ring {
+  animation: none;
+}
